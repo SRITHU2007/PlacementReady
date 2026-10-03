@@ -75,3 +75,13 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name'
         ]
+
+class StudentProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentProfile
+        fields = [
+            'phone',
+            'department',
+            'year',
+            'college'
+        ]

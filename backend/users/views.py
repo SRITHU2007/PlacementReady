@@ -48,3 +48,29 @@ def profile(request):
         "message": "Authenticated user profile",
         "user": UserSerializer(request.user).data
     })
+
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def student_profile(request):
+    profile = request.user.profile
+
+    if request.method == 'GET':
+        serializer = StudentProfileSerializer(profile)
+        return Response(serializer.data)
+
+    serializer = StudentProfileSerializer(
+        profile,
+        data=request.data
+    )
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response({
+            "message": "Profile updated successfully",
+            "profile": serializer.data
+        })
+
+    return Response(
+        serializer.errors,
+        status=status.HTTP_400_BAD_REQUEST
+    )

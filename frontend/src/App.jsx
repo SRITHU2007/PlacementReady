@@ -8,6 +8,7 @@ import {
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -74,6 +75,9 @@ function App() {
                     path="/dashboard"
                     element={<Dashboard />}
                 />
+
+                <Route
+                 path="/profile" element={<Profile />} />
 
             </Routes>
 
