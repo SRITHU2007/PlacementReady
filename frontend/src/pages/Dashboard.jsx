@@ -1,126 +1,47 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import API from "../api";
 
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-
     const navigate = useNavigate();
 
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState("");
-
-
-    useEffect(() => {
-
-        const token =
-            localStorage.getItem("access");
-
-
-        if (!token) {
-
-            navigate("/login");
-
-            return;
-        }
-
-
-        API.get(
-            "profile/",
-            {
-                headers: {
-                    Authorization:
-                        `Bearer ${token}`
-                }
-            }
-        )
-
-        .then((response) => {
-
-            setUser(
-                response.data.user
-            );
-
-        })
-
-        .catch(() => {
-
-            localStorage.removeItem(
-                "access"
-            );
-
-            localStorage.removeItem(
-                "refresh"
-            );
-
-            navigate("/login");
-
-            setError(
-                "Session expired."
-            );
-
-        });
-
-    }, [navigate]);
-
-
-    const logout = () => {
-
-        localStorage.removeItem(
-            "access"
-        );
-
-        localStorage.removeItem(
-            "refresh"
-        );
-
+    const handleLogout = () => {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
         navigate("/login");
     };
 
-
     return (
+        <div className="container mt-4">
+            <h2>Welcome to PlacementReady!</h2>
 
-        <div>
+            <p>
+                Manage your student profile and prepare for placements.
+            </p>
 
-            <h1>
-                PlacementReady Dashboard
-            </h1>
+            <div className="mt-3">
+                <button
+                    className="btn btn-primary me-2"
+                    onClick={() => navigate("/profile")}
+                >
+                    My Profile
+                </button>
 
+                <button
+                    className="btn btn-success me-2"
+                    onClick={() => navigate("/upload-resume")}
+                >
+                    Upload Resume
+                </button>
 
-            {user && (
-
-                <div>
-
-                    <h2>
-                        Welcome, {user.first_name}!
-                    </h2>
-
-                    <p>
-                        Username: {user.username}
-                    </p>
-
-                    <p>
-                        Email: {user.email}
-                    </p>
-
-
-                    <button onClick={logout}>
-                        Logout
-                    </button>
-
-                </div>
-
-            )}
-
-
-            {error && (
-                <p>{error}</p>
-            )}
-
+                <button
+                    className="btn btn-danger"
+                    onClick={handleLogout}
+                >
+                    Logout
+                </button>
+            </div>
         </div>
-
     );
 }
-
 
 export default Dashboard;

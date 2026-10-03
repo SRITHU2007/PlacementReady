@@ -48,9 +48,16 @@ function Profile() {
             });
 
             setMessage("Profile updated successfully!");
-        } catch (error) {
-            setMessage("Unable to update profile.");
-        }
+        }  catch (error) {
+    console.log("Status:", error.response?.status);
+    console.log("Error:", error.response?.data || error.message);
+
+    setMessage(
+        JSON.stringify(
+            error.response?.data || error.message
+        )
+    );
+}
     };
 
     return (
